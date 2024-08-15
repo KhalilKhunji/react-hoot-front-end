@@ -31,6 +31,7 @@ const HootDetails = ({ user, handleDeleteHoot }) => {
             <p>{hoot.category.toUpperCase()}</p>
             <h1>{hoot.title}</h1>
             <AuthorDate name={hoot.author.username} date={hoot.createdAt} />
+            {hoot.author._id === user.id && (<><Link to={`/hoots/${hootId}/edit`}>Edit</Link></>)}
             {hoot.author._id === user.id && (<><button onClick={() => handleDeleteHoot(hootId)}>Delete</button></>)}
           </header>
           <p>{hoot.text}</p>
