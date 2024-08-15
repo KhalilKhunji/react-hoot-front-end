@@ -15,7 +15,7 @@ const App = () => {
   const [user, setUser] = useState(authService.getUser());
   const [hoots, setHoots] = useState([]);
 
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const handleSignout = () => {
     authService.signout();
@@ -25,6 +25,12 @@ const App = () => {
   const handleAddHoot = async (hootFormData) => {
     const newHoot = await hootService.create(hootFormData);
     setHoots([...hoots, newHoot]);
+    navigate('/hoots');
+  };
+
+  const handleDeleteHoot = async (hootId) => {
+    const deletedHoot = await hootService.remove(hootId);
+    setHoots(hoots.filter((hoot) => hoot._id !== deletedHoot._id));
     navigate('/hoots');
   };
 
@@ -46,7 +52,7 @@ const App = () => {
           <>
           <Route path="/" element={<Dashboard user={user} />} />
           <Route path="/hoots" element={<HootList hoots={hoots} />} />
-          <Route path="/hoots/:hootId" element={<HootDetails />} />
+          <Route path="/hoots/:hootId" element={<HootDetails user={user} handleDeleteHoot={handleDeleteHoot} />} />
           <Route path="/hoots/new" element={<HootForm handleAddHoot={handleAddHoot} />} />
           </>
         ) : (

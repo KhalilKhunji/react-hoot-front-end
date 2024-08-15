@@ -4,9 +4,9 @@ import AuthorDate from '../common/AuthorDate';
 import CommentForm from '../CommentForm/CommentForm';
 import * as commentService from '../../services/commentService';
 import * as hootService from '../../services/hootService';
+import { Link } from 'react-router-dom';
 
-
-const HootDetails = (props) => {
+const HootDetails = ({ user, handleDeleteHoot }) => {
     const { hootId } = useParams();
     const [hoot, setHoot] = useState(null);
 
@@ -31,6 +31,7 @@ const HootDetails = (props) => {
             <p>{hoot.category.toUpperCase()}</p>
             <h1>{hoot.title}</h1>
             <AuthorDate name={hoot.author.username} date={hoot.createdAt} />
+            {hoot.author._id === user.id && (<><button onClick={() => handleDeleteHoot(hootId)}>Delete</button></>)}
           </header>
           <p>{hoot.text}</p>
           <section>
