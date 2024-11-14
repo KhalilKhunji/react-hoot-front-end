@@ -5,6 +5,7 @@ import CommentForm from '../CommentForm/CommentForm';
 import * as commentService from '../../services/commentService';
 import * as hootService from '../../services/hootService';
 import { Link } from 'react-router-dom';
+import styles from './HootDetails.module.css';
 
 const HootDetails = ({ user, handleDeleteHoot }) => {
     const { hootId } = useParams();
@@ -31,15 +32,19 @@ const HootDetails = ({ user, handleDeleteHoot }) => {
     if (!hoot) return <main>Loading...</main>;
     
     return (
-        <main>
-          <header>
-            <p>{hoot.category.toUpperCase()}</p>
-            <h1>{hoot.title}</h1>
-            <AuthorDate name={hoot.author.username} date={hoot.createdAt} />
-            {hoot.author._id === user.id && (<><Link to={`/hoots/${hootId}/edit`}>Edit</Link></>)}
-            {hoot.author._id === user.id && (<><button onClick={() => handleDeleteHoot(hootId)}>Delete</button></>)}
-          </header>
-          <p>{hoot.text}</p>
+        <main className={styles.container}>
+          <section>
+            <header>
+              <p>{hoot.category.toUpperCase()}</p>
+              <h1>{hoot.title}</h1>
+              <div>
+                <AuthorDate name={hoot.author.username} date={hoot.createdAt} />
+                {hoot.author._id === user.id && (<><Link to={`/hoots/${hootId}/edit`}>Edit</Link></>)}
+                {hoot.author._id === user.id && (<><button onClick={() => handleDeleteHoot(hootId)}>Delete</button></>)}
+              </div>            
+            </header>
+            <p>{hoot.text}</p>
+          </section>
           <section>
             <h2>Comments</h2>
             <CommentForm handleAddComment={handleAddComment} />
@@ -47,6 +52,7 @@ const HootDetails = ({ user, handleDeleteHoot }) => {
             {hoot.comments.map((comment) => (
                 <article key={comment._id}>
                 <header>
+                <div>
                 <AuthorDate name={comment.author.username} date={comment.createdAt} />
                 {comment.author._id === user.id && (
                   <>
@@ -54,11 +60,12 @@ const HootDetails = ({ user, handleDeleteHoot }) => {
                     <button onClick={() => {handleDeleteComment(comment._id)}}>Delete</button>
                   </>
                 )}
+                </div>
                 </header>
                 <p>{comment.text}</p>
                 </article>
             ))}
-            </section>
+          </section>
         </main>
     );
 };
