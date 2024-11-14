@@ -15,6 +15,11 @@ const HootDetails = ({ user, handleDeleteHoot }) => {
       setHoot({...hoot, comments: [...hoot.comments, newComment]});
     };
 
+    const handleDeleteComment = async (commentId) => {
+      const deletedComment = await commentService.remove(hootId, commentId);
+      setHoot({...hoot, comments: hoot.comments.filter((comment) => comment._id !== commentId)});
+    };
+
     useEffect(() => {
         const getHoot = async () => {
           const hootData = await hootService.show(hootId);
@@ -43,6 +48,12 @@ const HootDetails = ({ user, handleDeleteHoot }) => {
                 <article key={comment._id}>
                 <header>
                 <AuthorDate name={comment.author.username} date={comment.createdAt} />
+                {comment.author._id === user.id && (
+                  <>
+                    <Link to={`/hoots/${hootId}/comments/${comment._id}/edit`}>Edit</Link>
+                    <button onClick={() => {handleDeleteComment(comment._id)}}>Delete</button>
+                  </>
+                )}
                 </header>
                 <p>{comment.text}</p>
                 </article>
