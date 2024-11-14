@@ -10,10 +10,12 @@ import styles from './HootDetails.module.css';
 const HootDetails = ({ user, handleDeleteHoot }) => {
     const { hootId } = useParams();
     const [hoot, setHoot] = useState(null);
+    const [trigger, setTrigger] = useState(true);
 
     const handleAddComment = async (commentFormData) => {
       const newComment = await commentService.create(hootId, commentFormData);
       setHoot({...hoot, comments: [...hoot.comments, newComment]});
+      setTrigger(!trigger);
     };
 
     const handleDeleteComment = async (commentId) => {
@@ -27,7 +29,7 @@ const HootDetails = ({ user, handleDeleteHoot }) => {
           setHoot(hootData);
         };
         getHoot();
-    }, [hootId]);
+    }, [hootId, trigger]);
 
     if (!hoot) return <main>Loading...</main>;
     

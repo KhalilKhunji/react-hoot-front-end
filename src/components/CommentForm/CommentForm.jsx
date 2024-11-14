@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import * as hootService from '../../services/hootService';
 import * as commentService from '../../services/commentService';
 
+import styles from './CommentForm.module.css';
+
 const CommentForm = ({handleAddComment}) => {
   const [formData, setFormData] = useState({ text: '' });
   const { hootId, commentId } = useParams();
@@ -32,6 +34,24 @@ const CommentForm = ({handleAddComment}) => {
     if (hootId && commentId) fetchHoot();
   }, [hootId, commentId])
 
+  if (hootId && commentId) return (
+    <main className={styles.container}>
+      <form onSubmit={handleSubmit}>
+        <h1>Edit Comment</h1>
+        <label htmlFor="text-input">Your comment:</label>
+        <textarea
+          required
+          type="text"
+          name="text"
+          id="text-input"
+          value={formData.text}
+          onChange={handleChange}
+        />
+        <button type="submit">SUBMIT</button>
+      </form>
+    </main>
+  );
+  
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="text-input">Your comment:</label>
