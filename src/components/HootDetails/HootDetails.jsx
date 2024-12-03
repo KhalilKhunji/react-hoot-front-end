@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import AuthorDate from '../common/AuthorDate';
+import AuthorInfo from '../../components/AuthorInfo/AuthorInfo';
 import CommentForm from '../CommentForm/CommentForm';
 import * as commentService from '../../services/commentService';
 import * as hootService from '../../services/hootService';
@@ -42,14 +42,14 @@ const HootDetails = ({ user, handleDeleteHoot }) => {
               <p>{hoot.category.toUpperCase()}</p>
               <h1>{hoot.title}</h1>
               <div>
-                <AuthorDate name={hoot.author.username} date={hoot.createdAt} />
+              <AuthorInfo content={hoot} />
                 {hoot.author._id === user.id && (<><Link to={`/hoots/${hootId}/edit`}>
                   <Icon category="Edit" />
                 </Link></>)}
                 {hoot.author._id === user.id && (<><button onClick={() => handleDeleteHoot(hootId)}>
                   <Icon category="Trash" />
-                </button></>)}
-              </div>            
+                </button></>)}  
+              </div>         
             </header>
             <p>{hoot.text}</p>
           </section>
@@ -61,7 +61,7 @@ const HootDetails = ({ user, handleDeleteHoot }) => {
                 <article key={comment._id}>
                 <header>
                 <div>
-                <AuthorDate name={comment.author.username} date={comment.createdAt} />
+                <AuthorInfo content={comment} />
                 {comment.author._id === user.id && (
                   <>
                     <Link to={`/hoots/${hootId}/comments/${comment._id}/edit`}>

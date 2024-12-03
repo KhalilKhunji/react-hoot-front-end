@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import AuthorDate from '../common/AuthorDate';
 import styles from './HootList.module.css';
 import Icon from '../Icon/Icon';
+import AuthorInfo from '../../components/AuthorInfo/AuthorInfo';
 
 const HootList = ({hoots}) => {
     return (
@@ -14,7 +14,7 @@ const HootList = ({hoots}) => {
                   <h2>{hoot.title}</h2>
                   <Icon category={hoot.category} />
                 </div>
-                  <AuthorDate name={hoot.author.username} date={hoot.createdAt} />
+                  <AuthorInfo content={hoot} />
                 </header>
                 <p>{hoot.text}</p>
               </article>
