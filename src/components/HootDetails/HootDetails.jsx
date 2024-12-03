@@ -6,6 +6,8 @@ import * as commentService from '../../services/commentService';
 import * as hootService from '../../services/hootService';
 import { Link } from 'react-router-dom';
 import styles from './HootDetails.module.css';
+import Loading from '../Loading/Loading';
+import Icon from '../Icon/Icon';
 
 const HootDetails = ({ user, handleDeleteHoot }) => {
     const { hootId } = useParams();
@@ -31,7 +33,7 @@ const HootDetails = ({ user, handleDeleteHoot }) => {
         getHoot();
     }, [hootId, trigger]);
 
-    if (!hoot) return <main>Loading...</main>;
+    if (!hoot) return <Loading />
     
     return (
         <main className={styles.container}>
@@ -41,8 +43,12 @@ const HootDetails = ({ user, handleDeleteHoot }) => {
               <h1>{hoot.title}</h1>
               <div>
                 <AuthorDate name={hoot.author.username} date={hoot.createdAt} />
-                {hoot.author._id === user.id && (<><Link to={`/hoots/${hootId}/edit`}>Edit</Link></>)}
-                {hoot.author._id === user.id && (<><button onClick={() => handleDeleteHoot(hootId)}>Delete</button></>)}
+                {hoot.author._id === user.id && (<><Link to={`/hoots/${hootId}/edit`}>
+                  <Icon category="Edit" />
+                </Link></>)}
+                {hoot.author._id === user.id && (<><button onClick={() => handleDeleteHoot(hootId)}>
+                  <Icon category="Trash" />
+                </button></>)}
               </div>            
             </header>
             <p>{hoot.text}</p>
@@ -58,8 +64,12 @@ const HootDetails = ({ user, handleDeleteHoot }) => {
                 <AuthorDate name={comment.author.username} date={comment.createdAt} />
                 {comment.author._id === user.id && (
                   <>
-                    <Link to={`/hoots/${hootId}/comments/${comment._id}/edit`}>Edit</Link>
-                    <button onClick={() => {handleDeleteComment(comment._id)}}>Delete</button>
+                    <Link to={`/hoots/${hootId}/comments/${comment._id}/edit`}>
+                      <Icon category="Edit" />
+                    </Link>
+                    <button onClick={() => {handleDeleteComment(comment._id)}}>
+                      <Icon category="Trash" />
+                    </button>
                   </>
                 )}
                 </div>

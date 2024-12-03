@@ -6,6 +6,8 @@ import * as commentService from '../../services/commentService';
 
 import styles from './CommentForm.module.css';
 
+import Icon from '../Icon/Icon';
+
 const CommentForm = ({handleAddComment}) => {
   const [formData, setFormData] = useState({ text: '' });
   const { hootId, commentId } = useParams();
@@ -47,7 +49,9 @@ const CommentForm = ({handleAddComment}) => {
           value={formData.text}
           onChange={handleChange}
         />
-        <button type="submit">SUBMIT</button>
+        <button type="submit">
+          Edit Comment
+        </button>
       </form>
     </main>
   );
@@ -63,7 +67,9 @@ const CommentForm = ({handleAddComment}) => {
         value={formData.text}
         onChange={handleChange}
       />
-      <button type="submit">SUBMIT COMMENT</button>
+      <button type="submit">
+        <Icon category="Create" />
+      </button>
     </form>
   );
 };
